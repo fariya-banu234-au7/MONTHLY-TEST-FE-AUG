@@ -3,7 +3,7 @@ import {Link, Switch } from 'react-router-dom'
 import {connect} from 'react-redux'
 import Login  from './auth/Login'
 import Signup  from './auth/Signup'
-import Dashboard from './dashboard/Dashboard'
+import Profile from './../components/dashboard/Profile'
 
 
 const Main = ({isAuthenticated}) => {
@@ -11,7 +11,7 @@ const Main = ({isAuthenticated}) => {
     return (
             <div>
             {
-                isAuthenticated ?  <Dashboard />
+                isAuthenticated ?  <Profile />
                 :<div><p>Auth component</p>
                 <Link to='/login'  >Login</Link>  
                 <Link to='/signup' >Signup</Link> 

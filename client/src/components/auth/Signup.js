@@ -2,29 +2,35 @@ import React, { Fragment, useState } from 'react'
 import { connect } from 'react-redux';
 import { register } from './../../actions/auth'
 import PropTypes from 'prop-types';
+import {Redirect } from 'react-router-dom'
 
-const Signup = ({ register }) => {
+const Signup = ({ register, isAuthenticated }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
-        password2: ''
+        confirmPassword: ''
     });
 
-    const { name, email, password, password2 } = formData;
+    const { name, email, password, confirmPassword } = formData;
 
     const onChange = (e) =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log(name, email, password, password2)
-        if (password !== password2) {
+        console.log(name, email, password, confirmPassword)
+        if (password !== confirmPassword) {
             alert('Passwords do not match', 'danger');
         } else {
-            register({ name, email, password });
+            register({ name, email, password,confirmPassword });
         }
     };
+
+    if (isAuthenticated) {
+        return <Redirect to="/profile" />;
+     }
+    
 
     return (
         <div>
@@ -56,9 +62,9 @@ const Signup = ({ register }) => {
                 </div>
                 <div className="form-group">
                     <input
-                        type="password2"
-                        name="password2"
-                        value={password2}
+                        type="confirmPassword"
+                        name="confirmPassword"
+                        value={confirmPassword}
                         onChange={onChange} />
                 </div>
                 <input type="submit" value="Register" />
@@ -69,7 +75,11 @@ const Signup = ({ register }) => {
 }
 
 Signup.propTypes = {
-    register: PropTypes.func.isRequired
+    register: PropTypes.func.isRequired,
 };
 
-export default connect(null, { register })(Signup)
+const mapStateToProps = (state) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+})
+
+export default connect(mapStateToProps, { register })(Signup)

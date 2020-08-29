@@ -83,7 +83,7 @@ export const login = (email, password) => async dispatch => {
 //   }
 }
 
-export const register = ({ name, email, password }) => async dispatch => {
+export const register = ({ name, email, password ,confirmPassword}) => async dispatch => {
     try {
  
         const config = {
@@ -92,7 +92,7 @@ export const register = ({ name, email, password }) => async dispatch => {
             }
         }
 
-        const body = JSON.stringify({ username:name, email, password })
+        const body = JSON.stringify({ username:name, email, password, confirmPassword })
 
         const res = await axios.post("/api/V1/users/signup",
             body,
@@ -100,11 +100,11 @@ export const register = ({ name, email, password }) => async dispatch => {
 
         )
         console.log(res)
-        // dispatch({
-        //     type: "REGISTER_SUCCESS",
-        //     payload: res.data
-        // });
-        // dispatch(loadUser());
+        dispatch({
+            type: "REGISTER_SUCCESS",
+            payload: res.data
+        });
+        dispatch(loadUser());
     } catch (err) {
         const errors = err.response.data.errors;
         console.log(errors)
@@ -138,59 +138,44 @@ export const posting = ({title,description,author,datetime}) =>async dispatch =>
     }
 }
 
- export const filtering = ({products, value}) => dispatch => {
+
+
+export const  posting2 = ({comment,post,user}) => async dispatch => {
     try{
-        console.log("LEt me search in this==>>", products, value)
-        let searched =[]
-         products.map(product => { 
-             if (product.details.indexOf(value) >= 0)
-             {
-             console.log(product.details.indexOf(value) >= 0)
-            searched.push(product)
-        }});
-        console.log(searched)
-        dispatch({
-            type:"PRODUCT_LOADED",
-            payload: {
-                products: searched
+        console.log("From Paload of comment action in auth", comment,post,user)
+        const config = {
+            headers: {
+                'Content-Type': 'application/json'
             }
-        })
+        }
+        const body = JSON.stringify({ comment,post,user })
+        console.log(body)
+
+        const res = await axios.post("/api/v1/comment",
+            body,
+            config
+        )
+        console.log(res)
+        dispatch(loadUser());
     }catch(err){
         console.log(err)
     }
 }
 
-export const filtering2 = ({category, products}) => dispatch => {
+export const deleting = ({postid, userid}) => async dispatch => {
     try{
-        console.log("LEt me search in filter==>>", category, products)
-        let searched =[]
-         products.map(product => { 
-             if (product.category === category)
-             {
-            searched.push(product)
-        }});
-        console.log(searched)
-        dispatch({
-            type:"PRODUCT_LOADED",
-            payload: {
-                products: searched
-            }
-        })
-    }catch(err){
-        console.log(err)
-    }
-}
+        console.log("From Paload of comment action in auth",  postid, userid)
+        // const config = {
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     }
+        // }
+        // const body = { userid,  postid }
+        // console.log(body)
 
-export const filtering3 = ({products}) => dispatch => {
-    try{
-        console.log("LEt me search in filter all==>>", products)
-
-        dispatch({
-            type:"PRODUCT_LOADED",
-            payload: {
-                products
-            }
-        })
+        const res = await axios.delete(`/api/v1/post/${userid}/${postid}` )
+        console.log(res)
+        dispatch(loadUser())
     }catch(err){
         console.log(err)
     }

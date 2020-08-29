@@ -5,10 +5,7 @@ import {connect} from 'react-redux'
  const Navbar = ({isAuthenticated}) => {
     return (
         <div>
-                <Link to='/'>Dashboard</Link>
                 <Link to='/profile'>Profile</Link>
-                <Link to='/app/receipts'>receipts</Link>
-                <Link to='/app/products'>product</Link>
                 {
                     isAuthenticated && <div>
                         <Link to='/add'>Add Post</Link>
