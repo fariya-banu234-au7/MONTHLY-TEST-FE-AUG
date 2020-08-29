@@ -1,9 +1,7 @@
 const mongoose = require('mongoose')
 const app = require('./app')
 
-const DB = "mongodb+srv://sakhsam:iNTNynymc6R0wy9o@cluster0.e4uwf.mongodb.net/<dbname>?retryWrites=true&w=majority"
-
-// iNTNynymc6R0wy9o
+const DB = "mongodb+srv://projectDB:projectDB@cluster0-h0cuf.mongodb.net/projectDB?retryWrites=true&w=majority"
 
 mongoose
 	.connect(DB, {
